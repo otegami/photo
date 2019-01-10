@@ -27,10 +27,11 @@ class PostsController < ApplicationController
         flash[:danger] = "投稿に失敗しました。"
         redirect_to new_post_path and return
     end  
+  end
   private
   def post_params
-    params.require(:post).permit(:caption).merge(user_id: current_user.id)
+      params.require(:post).permit(:caption).merge(user_id: current_user.id)
   end
-  end
+  
   #投稿処理
 end
