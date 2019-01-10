@@ -9,6 +9,9 @@ class UsersController < ApplicationController
   def top
   end
   def show
+    #ここに処理を実装
+    @user = User.find(params[:id])
+    @posts = Post.where(user_id: @user.id)
   end
   def edit
   end
@@ -28,12 +31,8 @@ class UsersController < ApplicationController
       redirect_to ('/sign_up') 
     end
   end
-  private
-  def user_params
-    params.require(:user).permit(:name, :email, :password)
-  end
   def sign_in
-    @user = User.new('hoge')
+    @user = User.new
     render layout: "application_not_login"
   end
   def sign_in_process
@@ -47,5 +46,9 @@ class UsersController < ApplicationController
         flash[:danger] = "サインインに失敗しました。"
         redirect_to('/sign_in')
       end  
+  end
+  private
+  def user_params
+    params.require(:user).permit(:name, :email, :password)
   end
 end
