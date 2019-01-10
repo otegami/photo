@@ -33,7 +33,7 @@ class UsersController < ApplicationController
     params.require(:user).permit(:name, :email, :password)
   end
   def sign_in
-    @user = User.new('hoge')
+    @user = User.new
     render layout: "application_not_login"
   end
   def sign_in_process
