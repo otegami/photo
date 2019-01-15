@@ -14,6 +14,20 @@ class UsersController < ApplicationController
     @posts = Post.where(user_id: @user.id)
   end
   def edit
+    @user = User.find(current_user.id)
+  end
+  def update
+    upload_file = params[:user][:image]
+    if upload_file.present?
+      upload_file_name = upload_file.original_filename
+      output_dir = Rails.root.join('public', 'users')
+      output_path = output_dir + upload_file_name
+      File.open(output_path, 'w+b') do |f|
+        f.write(upload_file.read)
+      end
+      current_user.update(user_params.merge({image: upload_file.original_filename}))
+    redirect_to profile_path(current_user)
+    end
   end
   def follower_list
   end
@@ -49,6 +63,6 @@ class UsersController < ApplicationController
   end
   private
   def user_params
-    params.require(:user).permit(:name, :email, :password)
+    params.require(:user).permit(:name, :email, :password, :comment)
   end
 end

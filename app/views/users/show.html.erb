@@ -10,7 +10,7 @@
         <div class="actions">
           <% if @user.id == current_user.id %>
           <div class="edit">
-            <%= link_to "プロフィール編集", profile_edit_path %>
+            <%= link_to "プロフィール編集", profile_edit_path(current_user) %>
           </div>
           <% end %>
         </div>

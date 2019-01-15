@@ -1,6 +1,6 @@
 class User < ApplicationRecord
     has_many :posts
-    before_save :convert_password
+    before_create :convert_password
     
     
     def convert_password

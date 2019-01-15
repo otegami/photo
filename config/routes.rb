@@ -9,7 +9,8 @@ Rails.application.routes.draw do
   get '/posts/new', to:'posts#new', as: :new_post
   post '/posts', to:'posts#create'
   get '/profile/(:id)', to:'users#show', as: :profile
-  get '/profile/edit', to:'users#edit', as: :profile_edit
+  get '/profile/(:id)/edit', to:'users#edit', as: :profile_edit
+  post '/profile/(:id)/edit', to:'users#update'
   get '/follow_list/(:id)', to:'users#follow_lsit', as: :follow_list
   get '/follower_list/(:id)', to:'users#follower_list', as: :follower_list
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
