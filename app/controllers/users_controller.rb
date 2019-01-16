@@ -7,6 +7,7 @@ class UsersController < ApplicationController
     redirect_to sign_in_path and return
   end  
   def top
+    @posts = Post.all.order("id desc")
   end
   def show
     #ここに処理を実装

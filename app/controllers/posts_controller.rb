@@ -4,6 +4,16 @@ class PostsController < ApplicationController
   def new
     @post = Post.new
   end
+  def destroy
+    @post = Post.find(params[:id])
+    if @post.destroy
+      flash[:message] = "投稿を削除しました。"
+      redirect_to top_path and return
+    else
+      flash[:danger] = "削除に失敗しました。"
+      redirect_to top_path and return      
+    end  
+  end   
   def create
     # ここに処理を実装
     @post = Post.new(post_params)
