@@ -1,5 +1,6 @@
 class User < ApplicationRecord
     has_many :posts
+    has_many :post_likes
     before_create :convert_password
     
     

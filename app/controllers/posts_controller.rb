@@ -38,6 +38,15 @@ class PostsController < ApplicationController
         redirect_to new_post_path and return
     end  
   end
+  def like
+    @post = Post.find(params[:id])
+    if PostLike.exists?(post_id: @post.id, user_id: current_user.id)
+      PostLike.find_by(post_id: @post.id, user_id: current_user.id).destroy
+    else
+      PostLike.create(post_id: @post.id, user_id: current_user.id)
+    end
+    redirect_to top_path and return
+  end  
   private
   def post_params
       params.require(:post).permit(:caption).merge(user_id: current_user.id)

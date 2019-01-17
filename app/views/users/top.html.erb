@@ -16,14 +16,14 @@
       <!-- テキスト部分 -->
       <div class="info">
         <div class="action">
-          <a href="#">
-            <i class="fa fa-heart-o"></i><!-- いいねを押してない時のハート -->
-          </a>
+          <%= link_to like_path(post) do %>
+            <i class="fa <%= post.like_from?(current_user)? "fa-heart active" : "fa-heart-o" %>"></i>
+          <% end %>
           <label for="post-comment-">
             <i class="fa fa-comment-o"></i>
           </label>
           <% if post.user_id == current_user.id %>
-            <%= link_to post_path(post), method: :delet do %>
+            <%= link_to post_path(post), method: :delete do %>
               <i class="fa fa-close"></i>
             <% end %>  
           <% end %>

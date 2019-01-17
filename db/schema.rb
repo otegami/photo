@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190108140701) do
+ActiveRecord::Schema.define(version: 20190117141532) do
 
   create_table "access", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "access_datetime", comment: "アクセス日時"
@@ -57,6 +57,15 @@ ActiveRecord::Schema.define(version: 20190108140701) do
     t.index ["post_id"], name: "index_post_images_on_post_id"
   end
 
+  create_table "post_likes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "post_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_post_likes_on_post_id"
+    t.index ["user_id"], name: "index_post_likes_on_user_id"
+  end
+
   create_table "posts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "user_id"
     t.text "caption"
@@ -95,5 +104,7 @@ ActiveRecord::Schema.define(version: 20190108140701) do
   end
 
   add_foreign_key "post_images", "posts"
+  add_foreign_key "post_likes", "posts"
+  add_foreign_key "post_likes", "users"
   add_foreign_key "posts", "users"
 end

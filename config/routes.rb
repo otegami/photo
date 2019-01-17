@@ -8,7 +8,8 @@ Rails.application.routes.draw do
   get '/top', to:'users#top', as: :top
   get '/posts/new', to:'posts#new', as: :new_post
   post '/posts', to:'posts#create'
-  post '/posts/(:id)', to:'posts#destroy', as: :post
+  delete '/posts/(:id)', to:'posts#destroy', as: :post
+  get '/posts/(:id)/like', to: 'posts#like', as: :like
   get '/profile/(:id)', to:'users#show', as: :profile
   get '/profile/(:id)/edit', to:'users#edit', as: :profile_edit
   post '/profile/(:id)/edit', to:'users#update'

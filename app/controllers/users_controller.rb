@@ -7,7 +7,11 @@ class UsersController < ApplicationController
     redirect_to sign_in_path and return
   end  
   def top
-    @posts = Post.all.order("id desc")
+    if params[:word].present?
+      @posts = Post.where("caption like ?", "%#{params[:word]}%").order("id desc")
+    else
+      @posts = Post.all.order("id desc")
+    end
   end
   def show
     #ここに処理を実装
