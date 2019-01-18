@@ -1,6 +1,9 @@
 class User < ApplicationRecord
     has_many :posts
     has_many :post_likes
+    has_many :post_comments
+    has_many :follows
+    has_many :followers, foreign_key: :follow_user_id, class_name:"Follow"
     before_create :convert_password
     
     

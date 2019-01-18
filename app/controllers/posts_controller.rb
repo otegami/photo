@@ -46,11 +46,17 @@ class PostsController < ApplicationController
       PostLike.create(post_id: @post.id, user_id: current_user.id)
     end
     redirect_to top_path and return
-  end  
+  end
+  def comment
+    @post = Post.find(params[:id])
+    @post.post_comments.create(post_comment_params)
+    redirect_to top_path and return
+  end
+  def post_comment_params
+    params.require(:post_comment).permit(:comment).merge(user_id: current_user.id)
+  end
   private
   def post_params
       params.require(:post).permit(:caption).merge(user_id: current_user.id)
   end
-  
-  #投稿処理
 end

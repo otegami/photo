@@ -38,7 +38,21 @@
       <span class="user_name"><%= post.user.name %></span>
       <span class="caption"><%= post.caption %></span>
       </li>
+      <% post.post_comments.each do |post_comment| %>
+      <li>
+        <span class="user_name"><%= post_comment.user.name %></span>
+        <span class="caption"><%= post_comment.comment %></span>
+      </li>
+      <% end %>
       </ul>
+      <div class="text_wrap">
+        <%= form_for post.post_comments.new, url: comment_path(post) do |f| %>
+          <div class="field">
+            <%= f.text_field :comment, id: "post-comment-#{post.id}", placeholder: "コメントを入力" %>
+            <%= f.submit"送信" %>
+          </div>
+        <% end %>
+      </div>
       <% end %>
       </div>
     </li>  
