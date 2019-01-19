@@ -5,8 +5,6 @@ class User < ApplicationRecord
     has_many :follows
     has_many :followers, foreign_key: :follow_user_id, class_name:"Follow"
     before_create :convert_password
-    
-    
     def convert_password
         self.password = User.generate_password(self.password)
     end
@@ -15,6 +13,9 @@ class User < ApplicationRecord
         salt = "h!hgamcRAdh38bajhvgai17ysvb"
         Digest::MD5.hexdigest(salt + password)
     end
+    def followed_by?(user)
+        user.follows.exists?(follow_user_id: self.id)
+    end    
       VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i 
       validates :name, presence: true
       validates :email, presence: true, format: {with: VALID_EMAIL_REGEX}, uniqueness: true

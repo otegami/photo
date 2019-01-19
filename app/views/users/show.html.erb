@@ -12,6 +12,10 @@
           <div class="edit">
             <%= link_to "プロフィール編集", profile_edit_path(current_user) %>
           </div>
+          <% else %>
+          <div class="follow">
+            <%= link_to @user.followed_by?(current_user)? "フォロー解除": "フォローする", follow_path(@user.id) %>
+          </div>
           <% end %>
         </div>
       </div>

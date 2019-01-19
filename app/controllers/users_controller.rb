@@ -47,7 +47,7 @@ class UsersController < ApplicationController
       redirect_to top_path and return
     else
       flash[:dager] = "ユーザー登録に失敗しました。"
-      redirect_to ('/sign_up') 
+      redirect_to sign_up_path and return 
     end
   end
   def sign_in
@@ -65,6 +65,15 @@ class UsersController < ApplicationController
         flash[:danger] = "サインインに失敗しました。"
         redirect_to('/sign_in')
       end  
+  end
+  def follow
+    @user = User.find(params[:id])
+    if Follow.exists?(user_id: current_user.id, follow_user_id: @user.id)
+      Follow.find_by(user_id: current_user.id, follow_user_id: @user.id).destroy
+    else
+      Follow.create(user_id: current_user.id, follow_user_id: @user.id)
+    end
+    redirect_back(fallback_location: top_path, notice: "フォローを更新しました")
   end
   private
   def user_params
