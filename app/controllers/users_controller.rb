@@ -10,8 +10,9 @@ class UsersController < ApplicationController
     if params[:word].present?
       @posts = Post.where("caption like ?", "%#{params[:word]}%").order("id desc")
     else
-      @posts = Post.all.order("id desc")
+      @posts = Post.all.order("id desc").page(params[:page])
     end
+    @recommends = User.where.not(id: current_user.id).where.not(id: current_user.follows.pluck(:follow_user_id)).limit(3)
   end
   def show
     #ここに処理を実装
@@ -31,10 +32,9 @@ class UsersController < ApplicationController
         f.write(upload_file.read)
       end
       current_user.update(user_params.merge({image: upload_file.original_filename}))
-    redirect_to profile_path(current_user)
     end
-  end
-  def follower_list
+    current_user.update(user_params)
+    redirect_to profile_path(current_user)
   end
   def sign_up
     @user = User.new
@@ -74,6 +74,15 @@ class UsersController < ApplicationController
       Follow.create(user_id: current_user.id, follow_user_id: @user.id)
     end
     redirect_back(fallback_location: top_path, notice: "フォローを更新しました")
+  end
+  def follow_list
+    #プロフィールの情報を取得
+    @user = User.find(params[:id])
+    @users = User.where(id: Follow.where(user_id: @user.id).pluck(:follow_user_id))
+  end
+  def follower_list
+    @user = User.find(params[:id])
+    @users = User.where(id: Follow.where(follow_user_id: @user.id).pluck(:user_id))
   end
   private
   def user_params
